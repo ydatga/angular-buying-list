@@ -17,8 +17,12 @@ app.listen(port);
 
 // For all GET requests, send back index.html
 // so that PathLocationStrategy can be used
-app.get("/*", function (req, res) {
+app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname + "/../dist/index.html"));
+});
+
+app.get("/aaa", (req, res) => {
+  res.send("aaa");
 });
 
 console.log(`Server listening on ${port}`);
