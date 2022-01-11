@@ -4,6 +4,8 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 8080;
 
+const db = require("../server/db/db");
+
 // Gzip
 app.use(compression());
 
@@ -23,6 +25,20 @@ app.get("/", function (req, res) {
 
 app.get("/aaa", (req, res) => {
   res.send("aaa");
+});
+
+app.get("/db", (req, res, next) => {
+  console.log("db connetting...");
+  db.pool.connect((err, client) => {
+    if (err) {
+      console.log(err);
+      res.send("err");
+    } else {
+      client.query("select * from users", (err, result) => {
+        res.send(result.rows);
+      });
+    }
+  });
 });
 
 console.log(`Server listening on ${port}`);
