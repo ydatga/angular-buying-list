@@ -6,7 +6,7 @@ import { TestComponent } from './test/test.component';
 
 const routes: Routes = [
   { path: 'test', component: TestComponent },
-  { path: '', component: AppComponent },
+  { path: '', component: TestComponent },
   { path: 'sign-in', component: SignInComponent },
 ];
 
