@@ -33,7 +33,7 @@ app.get("/aaa", (req, res) => {
   res.send("aaa");
 });
 
-app.get("/db", (req, res, next) => {
+app.get("/api/show", (req, res, next) => {
   console.log("db connetting...");
   db.pool.connect((err, client) => {
     if (err) {

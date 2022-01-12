@@ -14,4 +14,8 @@ export class TestComponent implements OnInit {
   onClickSignIn() {
     this.router.navigateByUrl('sign-in');
   }
+
+  onClickShowUser() {
+    this.router.navigateByUrl('users');
+  }
 }
