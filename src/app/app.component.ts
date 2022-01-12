@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { PgServiceService } from './pg-service.service';
 
 @Component({
   selector: 'app-root',

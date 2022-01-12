@@ -24,7 +24,9 @@ app.get("/", function (req, res) {
 });
 
 app.get("/sign-in", (req, res) => {
-  res.sendFile(path.join(__dirname + "/../dist/sign-in/sign-in.html"));
+  res.sendFile(
+    path.join(__dirname + "/../dist/sign-in/sign-in.component.html")
+  );
 });
 
 app.get("/aaa", (req, res) => {
