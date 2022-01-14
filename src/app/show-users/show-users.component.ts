@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { ApiService, User, users } from '../service/api.service';
 
 @Component({
   selector: 'app-show-users',
@@ -7,13 +9,19 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
   styleUrls: ['./show-users.component.scss'],
 })
 export class ShowUsersComponent implements OnInit {
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private api: ApiService) {
     var mes: string;
   }
+  usersObserver: Observable<users> | undefined;
+  users: User[] = [];
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.usersObserver = this.api.users$;
+  }
 
   onClickShow() {
-    console.log(JSON.stringify(this.httpClient.get('api/show'), null, '\t'));
+    this.usersObserver?.subscribe((next) => {
+      this.users = [...next.users];
+    });
   }
 }

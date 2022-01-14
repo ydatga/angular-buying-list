@@ -6,12 +6,12 @@ import { HttpClient } from '@angular/common/http';
 export class ApiService {
   constructor(private http: HttpClient) {}
 
-  get hello$() {
-    return this.http.get<res>('api/show');
+  get users$() {
+    return this.http.get<users>('api/show');
   }
 }
 
-export interface res {
+export interface users {
   users: User[];
 }
 

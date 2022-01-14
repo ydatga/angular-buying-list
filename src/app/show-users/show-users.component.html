@@ -1,2 +1,16 @@
 <p>show-users works!</p>
+
+<table *ngIf="users.length > 0">
+  <tr>
+    <th>name</th>
+    <th>id</th>
+    <th>pass</th>
+  </tr>
+  <tr *ngFor="let user of users">
+    <td>{{ user.name }}</td>
+    <td>{{ user.login_id }}</td>
+    <td>{{ user.pass }}</td>
+  </tr>
+</table>
+
 <button (click)="onClickShow()">Show</button>
