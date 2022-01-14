@@ -20,17 +20,7 @@ app.listen(port);
 // For all GET requests, send back index.html
 // so that PathLocationStrategy can be used
 app.get("/", function (req, res) {
-  res.sendFile(path.join(__dirname + "/../dist/index.html"));
-});
-
-app.get("/sign-in", (req, res) => {
-  res.sendFile(
-    path.join(__dirname + "/../dist/sign-in/sign-in.component.html")
-  );
-});
-
-app.get("/aaa", (req, res) => {
-  res.send("aaa");
+  res.sendFile(path.join(__dirname + "/../src/index.html"));
 });
 
 app.get("/api/show", (req, res, next) => {
@@ -41,10 +31,15 @@ app.get("/api/show", (req, res, next) => {
       res.send("err");
     } else {
       client.query("select * from users", (err, result) => {
-        res.send(result.rows);
+        res.json({ users: result.rows });
       });
     }
   });
+});
+
+app.get("/api", (req, res) => {
+  res.header("Content-Type", "application/json; charset=utf-8");
+  res.json({ message: "こんにちは" });
 });
 
 console.log(`Server listening on ${port}`);
