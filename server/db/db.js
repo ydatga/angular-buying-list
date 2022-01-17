@@ -1,4 +1,5 @@
 const pg = require("pg");
+const sequelize = require("sequelize");
 require("dotenv").config();
 
 require("pg").defaults.ssl = true;

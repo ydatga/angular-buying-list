@@ -1,0 +1,32 @@
+{
+  "development": {
+    "user": "sujwaphpdhhilw",
+    "port": 5432,
+    "username": "sujwaphpdhhilw",
+    "password": "1f20602f67ed91a5555cee0f025b05cc4b4bd54892687e6281a269446a15fada",
+    "database": "dao1khuvdt51k",
+    "host": "ec2-52-86-177-34.compute-1.amazonaws.com",
+    "dialect": "postgres",
+    "ssl": true
+  },
+
+  "test": {
+    "user": "sujwaphpdhhilw",
+    "port": 5432,
+    "username": "sujwaphpdhhilw",
+    "password": "1f20602f67ed91a5555cee0f025b05cc4b4bd54892687e6281a269446a15fada",
+    "database": "dao1khuvdt51k",
+    "host": "ec2-52-86-177-34.compute-1.amazonaws.com",
+    "dialect": "postgres",
+    "ssl": true
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "database_production",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "operatorsAliases": false,
+    "use_env_variable": "DATABASE_URL"
+  }
+}
