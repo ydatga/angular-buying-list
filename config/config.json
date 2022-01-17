@@ -7,7 +7,11 @@
     "database": "dao1khuvdt51k",
     "host": "ec2-52-86-177-34.compute-1.amazonaws.com",
     "dialect": "postgres",
-    "ssl": true
+    "dialectOptions": {
+      "ssl": {
+        "rejectUnauthorized": false
+      }
+    }
   },
 
   "test": {
@@ -18,7 +22,11 @@
     "database": "dao1khuvdt51k",
     "host": "ec2-52-86-177-34.compute-1.amazonaws.com",
     "dialect": "postgres",
-    "ssl": true
+    "dialectOptions": {
+      "ssl": {
+        "rejectUnauthorized": false
+      }
+    }
   },
   "production": {
     "username": "root",
@@ -27,6 +35,11 @@
     "host": "127.0.0.1",
     "dialect": "postgres",
     "operatorsAliases": false,
-    "use_env_variable": "DATABASE_URL"
+    "use_env_variable": "DATABASE_URL",
+    "dialectOptions": {
+      "ssl": {
+        "rejectUnauthorized": false
+      }
+    }
   }
 }
