@@ -7,10 +7,16 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TestComponent } from './test/test.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { ShowUsersComponent } from './show-users/show-users.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [AppComponent, TestComponent, SignInComponent, ShowUsersComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+  declarations: [
+    AppComponent,
+    TestComponent,
+    SignInComponent,
+    ShowUsersComponent,
+  ],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent],
 })

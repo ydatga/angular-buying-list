@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 @Injectable({
   providedIn: 'root',
 })
@@ -8,6 +8,11 @@ export class ApiService {
 
   get users$() {
     return this.http.get<users>('api/show');
+  }
+
+  createUser(req: { name: string; id: string; pass: string }) {
+    console.log('this is createUser');
+    return this.http.post<any>('api/createUser', req);
   }
 }
 

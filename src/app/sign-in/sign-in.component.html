@@ -1,1 +1,7 @@
 <p>sign-in works!</p>
+<form>
+  <label>name:</label><input name="name" type="text" [(ngModel)]="name" />
+  <label>id:</label><input name="id" [(ngModel)]="id" /> <label>pass:</label
+  ><input [(ngModel)]="pass" name="pass" />
+  <button (click)="onClickSubmit()">submit</button>
+</form>

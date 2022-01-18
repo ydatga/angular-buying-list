@@ -4,7 +4,7 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 8080;
 
-const db = require("../server/db/db");
+const db = require("../models/index");
 
 // Gzip
 app.use(compression());
@@ -24,22 +24,18 @@ app.get("/", function (req, res) {
 });
 
 app.get("/api/show", (req, res, next) => {
-  console.log("db connetting...");
-  db.pool.connect((err, client) => {
-    if (err) {
-      console.log(err);
-      res.send("err");
-    } else {
-      client.query("select * from users", (err, result) => {
-        res.json({ users: result.rows });
-      });
-    }
+  db.user.findAll({}).then((users) => {
+    res.send(users);
   });
 });
 
 app.get("/api", (req, res) => {
   res.header("Content-Type", "application/json; charset=utf-8");
   res.json({ message: "こんにちは" });
+});
+
+app.post("/api/createUser", (req, res) => {
+  db.user.create(req);
 });
 
 console.log(`Server listening on ${port}`);
