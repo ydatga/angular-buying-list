@@ -6,6 +6,7 @@ const port = process.env.PORT || 8080;
 
 const db = require("../models/index");
 
+app.use(express.json());
 // Gzip
 app.use(compression());
 
@@ -35,7 +36,10 @@ app.get("/api", (req, res) => {
 });
 
 app.post("/api/createUser", (req, res) => {
-  db.user.create(req);
+  console.log(req.body);
+  db.user.create(req.body).then((user) => {
+    res.send(user);
+  });
 });
 
 console.log(`Server listening on ${port}`);

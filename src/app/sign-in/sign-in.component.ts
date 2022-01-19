@@ -18,7 +18,7 @@ export class SignInComponent implements OnInit {
     this.apiService
       .createUser({
         name: this.name,
-        id: this.id,
+        login_id: this.id,
         pass: this.pass,
       })
       .subscribe();
