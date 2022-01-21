@@ -24,4 +24,9 @@ export class ShowUsersComponent implements OnInit {
       this.users = [...next.users];
     });
   }
+
+  async onClickDelete(id: number) {
+    await (await this.api.deleteUser(id)).subscribe();
+    this.onClickShow();
+  }
 }

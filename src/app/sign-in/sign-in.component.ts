@@ -14,14 +14,14 @@ export class SignInComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  onClickSubmit() {
-    this.apiService
-      .createUser({
+  async onClickSubmit() {
+    await (
+      await this.apiService.createUser({
         name: this.name,
         login_id: this.id,
         pass: this.pass,
       })
-      .subscribe();
+    ).subscribe();
     console.log('onClickSubmit');
   }
 }

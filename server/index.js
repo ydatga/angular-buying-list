@@ -25,9 +25,13 @@ app.get("/", function (req, res) {
 });
 
 app.get("/api/show", (req, res, next) => {
-  db.user.findAll({}).then((users) => {
-    res.send(users);
-  });
+  db.user
+    .findAll({
+      attributes: ["id", "name", "login_id", "pass"],
+    })
+    .then((users) => {
+      res.send({ users: users });
+    });
 });
 
 app.get("/api", (req, res) => {
@@ -39,6 +43,13 @@ app.post("/api/createUser", (req, res) => {
   console.log(req.body);
   db.user.create(req.body).then((user) => {
     res.send(user);
+  });
+});
+
+app.get("/api/delete-user/:id", (req, res) => {
+  console.log("user deleting...");
+  db.user.findByPk(req.params.id).then((user) => {
+    return user.destroy();
   });
 });
 

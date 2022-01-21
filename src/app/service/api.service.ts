@@ -17,9 +17,13 @@ export class ApiService {
     return this.http.get<users>('api/show');
   }
 
-  createUser(req: { name: string; login_id: string; pass: string }) {
+  async createUser(req: { name: string; login_id: string; pass: string }) {
     console.log('this is createUser');
     return this.http.post<any>('api/createUser', req, httpOptions);
+  }
+
+  async deleteUser(id: number) {
+    return this.http.get<any>(`api/delete-user/${id}`);
   }
 }
 
@@ -28,6 +32,7 @@ export interface users {
 }
 
 export interface User {
+  id: number;
   name: string;
   pass: string;
   login_id: string;
