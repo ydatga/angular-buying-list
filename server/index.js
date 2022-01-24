@@ -49,7 +49,7 @@ app.post("/api/createUser", (req, res) => {
 app.get("/api/delete-user/:id", (req, res) => {
   console.log("user deleting...");
   db.user.findByPk(req.params.id).then((user) => {
-    return user.destroy();
+    res.send(user.destroy());
   });
 });
 
