@@ -8,6 +8,8 @@ import { TestComponent } from './test/test.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { ShowUsersComponent } from './show-users/show-users.component';
 import { FormsModule } from '@angular/forms';
+import { LoginComponent } from './components/login/login.component';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +17,8 @@ import { FormsModule } from '@angular/forms';
     TestComponent,
     SignInComponent,
     ShowUsersComponent,
+    LoginComponent,
+    HomeComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [],

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ApiService, User, users } from '../service/api.service';
+import { ApiService, users } from '../service/api.service';
+import { User } from '../types';
 
 @Component({
   selector: 'app-show-users',

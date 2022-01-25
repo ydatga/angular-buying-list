@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
 })
 export class TestComponent implements OnInit {
   constructor(private router: Router) {}
+  id: string = '';
+  pass: string = '';
 
   ngOnInit(): void {}
 
@@ -18,4 +20,6 @@ export class TestComponent implements OnInit {
   onClickShowUser() {
     this.router.navigateByUrl('users');
   }
+
+  onClickLogin() {}
 }

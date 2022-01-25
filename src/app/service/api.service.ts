@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { User } from '../types';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -29,11 +30,4 @@ export class ApiService {
 
 export interface users {
   users: User[];
-}
-
-export interface User {
-  id: number;
-  name: string;
-  pass: string;
-  login_id: string;
 }
