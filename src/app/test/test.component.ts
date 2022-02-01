@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { ApiService } from '../service/api.service';
 
 @Component({
   selector: 'app-test',
@@ -7,7 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./test.component.scss'],
 })
 export class TestComponent implements OnInit {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private api: ApiService) {}
   id: string = '';
   pass: string = '';
 
@@ -21,5 +23,9 @@ export class TestComponent implements OnInit {
     this.router.navigateByUrl('users');
   }
 
-  onClickLogin() {}
+  async onClickLogin() {
+    (await this.api.login(this.id, this.pass)).subscribe((value) => {
+      console.log(value);
+    });
+  }
 }

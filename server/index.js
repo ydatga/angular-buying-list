@@ -53,4 +53,19 @@ app.get("/api/delete-user/:id", (req, res) => {
   });
 });
 
+app.get("/api/login", (req, res) => {
+  const login_id = req.query.login_id;
+  const password = req.query.password;
+  db.user
+    .findAll({ where: { login_id: login_id, pass: password } })
+    .then((users) => {
+      if (users.length !== 1) {
+        res.json({ success: false, id: null, name: null });
+      } else {
+        const user = users[0];
+        res.json({ success: true, id: user.id, name: user.name });
+      }
+    });
+});
+
 console.log(`Server listening on ${port}`);

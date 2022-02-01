@@ -26,6 +26,10 @@ export class ApiService {
   async deleteUser(id: number) {
     return this.http.get<any>(`api/delete-user/${id}`);
   }
+
+  async login(login_id: string, password: string) {
+    return this.http.get<any>(`api/login`, { params: { login_id, password } });
+  }
 }
 
 export interface users {

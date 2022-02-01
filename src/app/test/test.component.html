@@ -1,10 +1,8 @@
-<p>test works!</p>
 <div>
   <form>
     <label name="id">id</label><input type="text" name="id" [(ngModel)]="id" />
     <label>pass</label><input type="password" name="pass" [(ngModel)]="pass" />
-    <button>Log in</button>
+    <button (click)="onClickLogin()">Log in</button>
   </form>
 </div>
 <button (click)="onClickSignIn()">sign in</button>
-<button (click)="onClickShowUser()">show User</button>
