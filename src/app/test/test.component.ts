@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ApiService } from '../service/api.service';
+import { StoreService } from '../store.service';
 
 @Component({
   selector: 'app-test',
@@ -9,7 +10,11 @@ import { ApiService } from '../service/api.service';
   styleUrls: ['./test.component.scss'],
 })
 export class TestComponent implements OnInit {
-  constructor(private router: Router, private api: ApiService) {}
+  constructor(
+    private router: Router,
+    private api: ApiService,
+    public store: StoreService
+  ) {}
   id: string = '';
   pass: string = '';
 
@@ -25,7 +30,11 @@ export class TestComponent implements OnInit {
 
   async onClickLogin() {
     (await this.api.login(this.id, this.pass)).subscribe((value) => {
-      console.log(value);
+      if (value.success) {
+        this.store.user.id = value.id;
+        this.store.user.name = value.name;
+        this.router.navigateByUrl('main');
+      }
     });
   }
 }

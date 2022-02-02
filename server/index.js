@@ -34,16 +34,24 @@ app.get("/api/show", (req, res, next) => {
     });
 });
 
-app.get("/api", (req, res) => {
-  res.header("Content-Type", "application/json; charset=utf-8");
-  res.json({ message: "こんにちは" });
-});
-
 app.post("/api/createUser", (req, res) => {
   console.log(req.body);
-  db.user.create(req.body).then((user) => {
-    res.send(user);
-  });
+  try {
+    let falg = false;
+    db.user
+      .findAll({ where: { login_id: req.body.login_id } })
+      .then((users) => {
+        if (users.length > 0) {
+          res.json({ success: false, id: null, name: null });
+          flag = true;
+        }
+      });
+    if (!flag) {
+      db.user.create(req.body).then((user) => {
+        res.json({ success: true, id: user.id, name: user.name });
+      });
+    }
+  } catch {}
 });
 
 app.get("/api/delete-user/:id", (req, res) => {

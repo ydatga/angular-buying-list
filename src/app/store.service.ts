@@ -5,7 +5,7 @@ import { User } from './types';
   providedIn: 'root',
 })
 export class StoreService {
-  public user: User | null = null;
+  public user = { name: null, id: null };
 
   constructor() {}
 }
