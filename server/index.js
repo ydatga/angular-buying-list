@@ -76,4 +76,16 @@ app.get("/api/login", (req, res) => {
     });
 });
 
-console.log(`Server listening on ${port}`);
+app.post("/api/create-list", (req, res) => {
+  db.BuyingList.create({
+    user_id: req.body.user_id,
+    name: req.body.name,
+    place: req.body.place,
+    dedline: req.body.dedline,
+    finished: false,
+  }).then((list) => {
+    res.json(list);
+  });
+});
+
+console.log(`Server listening on ${port}!!`);

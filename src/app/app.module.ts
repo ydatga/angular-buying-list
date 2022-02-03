@@ -13,6 +13,7 @@ import { HomeComponent } from './components/home/home.component';
 import { MainPageComponent } from './components/main-page/main-page.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ModalCreateBuyingListComponent } from './modal-create-buying-list/modal-create-buying-list.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     LoginComponent,
     HomeComponent,
     MainPageComponent,
+    ModalCreateBuyingListComponent,
   ],
   imports: [
     BrowserModule,
@@ -30,6 +32,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
+    MatDialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

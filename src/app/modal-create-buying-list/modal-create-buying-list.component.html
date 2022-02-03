@@ -1,0 +1,10 @@
+<div>
+  <form>
+    <label name="name">リスト名</label
+    ><input type="text" name="name" [(ngModel)]="listName" /> <label>場所</label
+    ><input type="text" name="place" [(ngModel)]="place" /> <label>期限</label
+    ><input type="date" name="deadline" [(ngModel)]="deadline" />
+    <button (click)="onClickCreate()">リストを作成</button>
+  </form>
+</div>
+<button (click)="onClickCancel()">キャンセル</button>

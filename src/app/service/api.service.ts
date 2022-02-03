@@ -27,6 +27,15 @@ export class ApiService {
     return this.http.get<any>(`api/delete-user/${id}`);
   }
 
+  async createList(req: {
+    user_id: number;
+    name: string;
+    place: string;
+    deadline: string;
+  }) {
+    return this.http.post<any>('api/create-list', req, httpOptions);
+  }
+
   async login(login_id: string, password: string) {
     return this.http.get<any>(`api/login`, { params: { login_id, password } });
   }
