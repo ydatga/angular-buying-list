@@ -14,6 +14,7 @@ import { MainPageComponent } from './components/main-page/main-page.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ModalCreateBuyingListComponent } from './modal-create-buying-list/modal-create-buying-list.component';
+import { BuyingListComponent } from './components/buying-list/buying-list.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { ModalCreateBuyingListComponent } from './modal-create-buying-list/modal
     HomeComponent,
     MainPageComponent,
     ModalCreateBuyingListComponent,
+    BuyingListComponent,
   ],
   imports: [
     BrowserModule,

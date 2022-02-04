@@ -23,8 +23,16 @@ export class ApiService {
     return this.http.post<any>('api/createUser', req, httpOptions);
   }
 
+  async getLists(user_id: number) {
+    return this.http.get<any>(`api/get-buying-lists/${user_id}`);
+  }
+
   async deleteUser(id: number) {
     return this.http.get<any>(`api/delete-user/${id}`);
+  }
+
+  async getList(id: number) {
+    return this.http.get<any>(`api/get-list/${id}`);
   }
 
   async createList(req: {

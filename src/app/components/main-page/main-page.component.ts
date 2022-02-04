@@ -4,7 +4,14 @@ import {} from '@angular/material';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ModalCreateBuyingListComponent } from 'src/app/modal-create-buying-list/modal-create-buying-list.component';
 import { Router } from '@angular/router';
+import { ApiService } from 'src/app/service/api.service';
 
+type BuyingList = {
+  id: number;
+  name: string;
+  place: string;
+  deadline: string;
+};
 @Component({
   selector: 'app-main-page',
   templateUrl: './main-page.component.html',
@@ -12,15 +19,21 @@ import { Router } from '@angular/router';
 })
 export class MainPageComponent implements OnInit {
   user = this.store.user;
+  buying_list: BuyingList[] = [];
   constructor(
     private store: StoreService,
     public matdialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private api: ApiService
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit() {
     if (!this.user.name) {
       this.router.navigateByUrl('/');
+    } else {
+      (await this.api.getLists(this.store.user.id!)).subscribe((value) => {
+        this.buying_list = value.map((list: BuyingList) => list);
+      });
     }
   }
 
@@ -31,4 +44,6 @@ export class MainPageComponent implements OnInit {
       dialogConfig
     );
   }
+
+  onClickDelete(id: number) {}
 }

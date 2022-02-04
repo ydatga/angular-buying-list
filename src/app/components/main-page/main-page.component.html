@@ -1,2 +1,17 @@
 <p>ようこそ{{ user?.name }}</p>
+<table *ngIf="buying_list.length > 0">
+  <tr>
+    <th>名前</th>
+    <th>場所</th>
+    <th>締め切り</th>
+  </tr>
+  <tr *ngFor="let list of buying_list">
+    <td>{{ list.name }}</td>
+    <td>{{ list.place }}</td>
+    <td>{{ list.deadline }}</td>
+    <td>
+      <button (click)="onClickDelete(list.id)">delete</button>
+    </td>
+  </tr>
+</table>
 <button (click)="onClickCreateBuyingList()">買い物リストを作成</button>

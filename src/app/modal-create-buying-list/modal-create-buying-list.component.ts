@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { ApiService } from '../service/api.service';
 import { StoreService } from '../store.service';
 
@@ -12,7 +13,8 @@ export class ModalCreateBuyingListComponent implements OnInit {
   constructor(
     public _dialogRef: MatDialogRef<ModalCreateBuyingListComponent>,
     public api: ApiService,
-    public store: StoreService
+    public store: StoreService,
+    private router: Router
   ) {}
   user_id = this.store.user.id ? (this.store.user.id as number) : null;
 
@@ -40,6 +42,8 @@ export class ModalCreateBuyingListComponent implements OnInit {
       })
     ).subscribe((value) => {
       console.log(value);
+      this.router.navigateByUrl(`/buying-list/${value.id}`);
+      this._dialogRef.close();
     });
   }
 }

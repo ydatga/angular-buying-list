@@ -77,14 +77,38 @@ app.get("/api/login", (req, res) => {
 });
 
 app.post("/api/create-list", (req, res) => {
-  db.BuyingList.create({
-    user_id: req.body.user_id,
-    name: req.body.name,
-    place: req.body.place,
-    dedline: req.body.dedline,
-    finished: false,
-  }).then((list) => {
-    res.json(list);
+  db.buying_list
+    .create({
+      ...req.body,
+      finished: false,
+    })
+    .then((list) => {
+      res.json(list);
+    });
+});
+
+app.get("/api/get-buying-lists/:user_id", (req, res) => {
+  db.buying_list
+    .findAll({ where: { user_id: req.params.user_id } })
+    .then((lists) => {
+      res.json(lists);
+    });
+});
+
+app.get("/api/get-buying-list/:id", (req, res) => {
+  let response = { success: true };
+  db.buying_list.findByPk(req.params.id).then((value) => {
+    if (value === null) {
+      res.json({ success: false });
+    } else {
+      response = { ...response, value };
+      db.things
+        .findAll({ where: { buying_list_id: value.id } })
+        .then((items) => {
+          response.items = items;
+        });
+      res.json(response);
+    }
   });
 });
 
