@@ -16,12 +16,16 @@ export class BuyingListComponent implements OnInit {
   ) {}
 
   list!: any;
+  list_id!: number;
 
   async ngOnInit() {
-    let id = null;
+    let id: string | null;
     this.route.paramMap.subscribe((params) => {
       id = params.get('id');
+      if (!id) {
+        this.router.navigateByUrl('/main');
+      }
+      this.list_id = parseInt(id!);
     });
-    console.log(`id:${id}`);
   }
 }
