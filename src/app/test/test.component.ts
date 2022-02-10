@@ -30,6 +30,7 @@ export class TestComponent implements OnInit {
 
   async onClickLogin() {
     (await this.api.login(this.id, this.pass)).subscribe((value) => {
+      console.log(value);
       if (value.success) {
         this.store.user.id = value.id;
         this.store.user.name = value.name;

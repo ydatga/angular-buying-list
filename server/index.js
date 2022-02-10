@@ -3,6 +3,7 @@ const path = require("path");
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 8080;
+const token = require("./token");
 
 const db = require("../models/index");
 
@@ -65,13 +66,20 @@ app.get("/api/login", (req, res) => {
   const login_id = req.query.login_id;
   const password = req.query.password;
   db.user
-    .findAll({ where: { login_id: login_id, pass: password } })
-    .then((users) => {
-      if (users.length !== 1) {
+    .findOne({ where: { login_id: login_id, pass: password } })
+    .then((user) => {
+      if (user === null) {
         res.json({ success: false, id: null, name: null });
       } else {
-        const user = users[0];
-        res.json({ success: true, id: user.id, name: user.name });
+        const _token = token.createToken();
+        user.token = _token;
+        user.save();
+        res.json({
+          success: true,
+          id: user.id,
+          name: user.name,
+          token: user.token,
+        });
       }
     });
 });
