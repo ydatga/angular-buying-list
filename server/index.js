@@ -11,29 +11,23 @@ app.use(express.json());
 // Gzip
 app.use(compression());
 
-// Run the app by serving the static files
-// in the dist directory
 app.use(express.static(__dirname + "/../dist"));
 
-// Start the app by listening on the default
-// Heroku port
 app.listen(port);
 
-// For all GET requests, send back index.html
-// so that PathLocationStrategy can be used
 app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname + "/../src/index.html"));
 });
 
-app.get("/api/show", (req, res, next) => {
-  db.user
-    .findAll({
-      attributes: ["id", "name", "login_id", "pass"],
-    })
-    .then((users) => {
-      res.send({ users: users });
-    });
-});
+// app.get("/api/show", (req, res, next) => {
+//   db.user
+//     .findAll({
+//       attributes: ["id", "name", "login_id", "pass"],
+//     })
+//     .then((users) => {
+//       res.send({ users: users });
+//     });
+// });
 
 app.post("/api/createUser", (req, res) => {
   console.log(req.body);
@@ -48,19 +42,25 @@ app.post("/api/createUser", (req, res) => {
         }
       });
     if (!flag) {
-      db.user.create(req.body).then((user) => {
-        res.json({ success: true, id: user.id, name: user.name });
+      const _token = token.createToken();
+      db.user.create({ ...req.body, token: _token }).then((user) => {
+        res.json({
+          success: true,
+          id: user.id,
+          name: user.name,
+          token: user.token,
+        });
       });
     }
   } catch {}
 });
 
-app.get("/api/delete-user/:id", (req, res) => {
-  console.log("user deleting...");
-  db.user.findByPk(req.params.id).then((user) => {
-    res.send(user.destroy());
-  });
-});
+// app.get("/api/delete-user/:id", (req, res) => {
+//   console.log("user deleting...");
+//   db.user.findByPk(req.params.id).then((user) => {
+//     res.send(user.destroy());
+//   });
+// });
 
 app.get("/api/login", (req, res) => {
   const login_id = req.query.login_id;
@@ -95,12 +95,17 @@ app.post("/api/create-list", (req, res) => {
     });
 });
 
-app.get("/api/get-buying-lists/:user_id", (req, res) => {
-  db.buying_list
-    .findAll({ where: { user_id: req.params.user_id } })
-    .then((lists) => {
-      res.json(lists);
-    });
+app.post("/api/get-buying-lists/:user_id", async (req, res) => {
+  const authSuccess = await auth(req.params.user_id, req.body.token);
+  if (authSuccess) {
+    db.buying_list
+      .findAll({ where: { user_id: req.params.user_id } })
+      .then((lists) => {
+        res.json(lists);
+      });
+  } else {
+    res.json({ error: "auth error" });
+  }
 });
 
 app.get("/api/get-buying-list/:id", (req, res) => {
@@ -119,5 +124,27 @@ app.get("/api/get-buying-list/:id", (req, res) => {
     }
   });
 });
+
+app.post("/api/auth", (req, res) => {
+  db.user
+    .findOne({ where: { id: req.body.user_id, token: req.body.token } })
+    .then((user) => {
+      if (user === null) {
+        res.json({ success: false });
+      } else {
+        res.json({ success: true });
+      }
+    });
+});
+
+const auth = async (user_id, token) => {
+  let flag = true;
+  await db.user.findOne({ where: { id: user_id, token } }).then((user) => {
+    if (user === null) {
+      flag = false;
+    }
+  });
+  return flag;
+};
 
 console.log(`Server listening on ${port}!!`);

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { ApiService } from '../service/api.service';
 import { StoreService } from '../store.service';
 
@@ -32,8 +33,10 @@ export class TestComponent implements OnInit {
     (await this.api.login(this.id, this.pass)).subscribe((value) => {
       console.log(value);
       if (value.success) {
-        this.store.user.id = value.id;
-        this.store.user.name = value.name;
+        localStorage.setItem(`${environment.APP_NAME}_user_id`, value.id);
+        localStorage.setItem(`${environment.APP_NAME}_user_name`, value.name);
+        localStorage.setItem(`${environment.APP_NAME}_token`, value.token);
+        this.store.refreshData();
         this.router.navigateByUrl('main');
       }
     });

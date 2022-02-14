@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  APP_NAME: 'angular_buying_list',
+  production: false,
 };
 
 /*

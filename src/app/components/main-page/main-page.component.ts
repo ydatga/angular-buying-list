@@ -31,7 +31,9 @@ export class MainPageComponent implements OnInit {
     if (!this.user.name) {
       this.router.navigateByUrl('/');
     } else {
-      (await this.api.getLists(this.store.user.id!)).subscribe((value) => {
+      (
+        await this.api.getLists(this.store.user.id!, this.store.user.token!)
+      ).subscribe((value: any) => {
         this.buying_list = value.map((list: BuyingList) => list);
       });
     }
