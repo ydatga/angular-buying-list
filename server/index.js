@@ -84,10 +84,15 @@ app.get("/api/login", (req, res) => {
     });
 });
 
-app.post("/api/create-list", (req, res) => {
+app.post("/api/create-list", async (req, res) => {
+  const authSuccess = await auth(req.body.authInfo);
+  if (!authSuccess) {
+    res.json({ error: "auth error" });
+    return;
+  }
   db.buying_list
     .create({
-      ...req.body,
+      ...req.body.createinfo,
       finished: false,
     })
     .then((list) => {
@@ -96,7 +101,10 @@ app.post("/api/create-list", (req, res) => {
 });
 
 app.post("/api/get-buying-lists/:user_id", async (req, res) => {
-  const authSuccess = await auth(req.params.user_id, req.body.token);
+  const authSuccess = await auth({
+    user_id: req.params.user_id,
+    token: req.body.token,
+  });
   if (authSuccess) {
     db.buying_list
       .findAll({ where: { user_id: req.params.user_id } })
@@ -108,36 +116,28 @@ app.post("/api/get-buying-lists/:user_id", async (req, res) => {
   }
 });
 
-app.get("/api/get-buying-list/:id", (req, res) => {
+app.post("/api/get-buying-list/:id", async (req, res) => {
   let response = { success: true };
+  const authSuccess = await auth(req.body.authInfo);
+  if (!authSuccess) {
+    res.json({ error: "auth error" });
+    return;
+  }
   db.buying_list.findByPk(req.params.id).then((value) => {
     if (value === null) {
       res.json({ success: false });
     } else {
       response = { ...response, value };
-      db.things
-        .findAll({ where: { buying_list_id: value.id } })
-        .then((items) => {
-          response.items = items;
-        });
-      res.json(response);
+      db.thing.findAll({ where: { list_id: value.id } }).then((items) => {
+        response.value = { ...response.value, items };
+        res.json(response);
+      });
     }
   });
+  return;
 });
 
-app.post("/api/auth", (req, res) => {
-  db.user
-    .findOne({ where: { id: req.body.user_id, token: req.body.token } })
-    .then((user) => {
-      if (user === null) {
-        res.json({ success: false });
-      } else {
-        res.json({ success: true });
-      }
-    });
-});
-
-const auth = async (user_id, token) => {
+const auth = async ({ user_id, token }) => {
   let flag = true;
   await db.user.findOne({ where: { id: user_id, token } }).then((user) => {
     if (user === null) {

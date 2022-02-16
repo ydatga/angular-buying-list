@@ -47,5 +47,9 @@ export class MainPageComponent implements OnInit {
     );
   }
 
+  gotoList(id: number) {
+    this.router.navigateByUrl(`/buying-list/${id}`);
+  }
+
   onClickDelete(id: number) {}
 }

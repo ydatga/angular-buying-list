@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { ApiService } from 'src/app/service/api.service';
+import { StoreService } from 'src/app/store.service';
 
 @Component({
   selector: 'app-buying-list',
@@ -12,7 +13,8 @@ export class BuyingListComponent implements OnInit {
   constructor(
     private api: ApiService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    public store: StoreService
   ) {}
 
   list!: any;
@@ -27,5 +29,11 @@ export class BuyingListComponent implements OnInit {
       }
       this.list_id = parseInt(id!);
     });
+    (
+      await this.api.getList(this.list_id, {
+        user_id: this.store.user.id!,
+        token: this.store.user.token!,
+      })
+    ).subscribe((value) => console.log(value));
   }
 }

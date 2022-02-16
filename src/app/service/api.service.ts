@@ -4,6 +4,11 @@ import { User } from '../types';
 import { identifierModuleUrl } from '@angular/compiler';
 import { Observable, of } from 'rxjs';
 
+type AuthInfo = {
+  user_id: number;
+  token: string;
+};
+
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
@@ -37,15 +42,22 @@ export class ApiService {
     return this.http.get<any>(`api/delete-user/${id}`);
   }
 
-  async getList(id: number, token: string) {
-    return this.http.get<any>(`api/get-list/${id}`);
+  async getList(id: number, authInfo: AuthInfo) {
+    return this.http.post<any>(
+      `api/get-buying-list/${id}`,
+      { authInfo },
+      httpOptions
+    );
   }
 
   async createList(req: {
-    user_id: number;
-    name: string;
-    place: string;
-    deadline: string;
+    createinfo: {
+      user_id: number;
+      name: string;
+      place: string;
+      deadline: string;
+    };
+    authInfo: AuthInfo;
   }) {
     return this.http.post<any>('api/create-list', req, httpOptions);
   }

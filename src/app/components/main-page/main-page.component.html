@@ -6,7 +6,9 @@
     <th>締め切り</th>
   </tr>
   <tr *ngFor="let list of buying_list">
-    <td>{{ list.name }}</td>
+    <td>
+      <a [href]="'/#/buying-list/' + list.id">{{ list.name }}</a>
+    </td>
     <td>{{ list.place }}</td>
     <td>{{ list.deadline }}</td>
     <td>

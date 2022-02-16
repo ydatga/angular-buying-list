@@ -35,10 +35,16 @@ export class ModalCreateBuyingListComponent implements OnInit {
   async onClickCreate() {
     (
       await this.api.createList({
-        user_id: this.user_id!,
-        name: this.listName,
-        place: this.place,
-        deadline: this.deadline,
+        createinfo: {
+          user_id: this.user_id!,
+          name: this.listName,
+          place: this.place,
+          deadline: this.deadline,
+        },
+        authInfo: {
+          user_id: this.user_id!,
+          token: this.store.user.token!,
+        },
       })
     ).subscribe((value) => {
       console.log(value);
