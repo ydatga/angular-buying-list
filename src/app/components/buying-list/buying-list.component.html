@@ -1,12 +1,13 @@
-<h1>{{ list.name }}</h1>
+<input type="text" [value]="list.name" />
 
-<p>{{ list.place }}</p>
-<p>{{ list.deadline }}</p>
+<input type="text" [value]="list.place" />
+<input type="date" [value]="list.deadline.substr(0, 10)" />
 
 <div class="items">
   <div class="item" *ngFor="let item of list.items">
-    <input type="checkbox" [value]="item.check" (click)="toggle(item.id)" />
+    <input type="checkbox" [checked]="item.check" (click)="toggle(item.id)" />
     {{ item.name }},{{ item.price }},{{ item.count }}
+    <button (click)="deleteItem(item.id)">削除</button>
   </div>
 </div>
 

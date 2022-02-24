@@ -112,6 +112,18 @@ export class ApiService {
   async toggle(req: { id: number; token: string }) {
     return this.http.post('api/toggle-thing', req, httpOptions);
   }
+
+  async deleteThing(req: { id: number; token: string }) {
+    return this.http.post('api/delete-thing', req, httpOptions);
+  }
+
+  async updateList(req: {
+    id: number;
+    token: string;
+    updateInfo: { name?: string; place?: string; deadline?: string };
+  }) {
+    return this.http.post('api/update-list', req, httpOptions);
+  }
 }
 
 export interface users {

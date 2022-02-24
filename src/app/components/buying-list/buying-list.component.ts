@@ -46,6 +46,17 @@ export class BuyingListComponent implements OnInit {
       console.log(this.list);
     });
   }
+  async delete(id: number) {
+    return (
+      await this.api.deleteThing({ id, token: this.store.user.token! })
+    ).pipe((x) => x);
+  }
+
+  async deleteItem(id: number) {
+    (await this.delete(id)).subscribe((value) => {
+      this.loadList();
+    });
+  }
 
   async addItem() {
     (
@@ -62,7 +73,9 @@ export class BuyingListComponent implements OnInit {
         },
       })
     ).subscribe((value) => {
-      console.log(value);
+      this.itemName = '';
+      this.itemPrice = 0;
+      this.itemNum = 0;
     });
     this.loadList();
   }

@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       price: DataTypes.INTEGER,
       count: DataTypes.INTEGER,
       list_id: DataTypes.INTEGER,
+      check: DataTypes.BOOLEAN,
     },
     {
       sequelize,

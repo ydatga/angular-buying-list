@@ -31,7 +31,6 @@ app.get("/", function (req, res) {
 // });
 
 app.post("/api/createUser", (req, res) => {
-  console.log(req.body);
   try {
     let falg = false;
     db.user
@@ -39,20 +38,18 @@ app.post("/api/createUser", (req, res) => {
       .then((users) => {
         if (users.length > 0) {
           res.json({ success: false, id: null, name: null });
-          flag = true;
+          return;
         }
-      });
-    if (!flag) {
-      const _token = token.createToken();
-      db.user.create({ ...req.body, token: _token }).then((user) => {
-        res.json({
-          success: true,
-          id: user.id,
-          name: user.name,
-          token: user.token,
+        const _token = token.createToken();
+        db.user.create({ ...req.body, token: _token }).then((user) => {
+          res.json({
+            success: true,
+            id: user.id,
+            name: user.name,
+            token: user.token,
+          });
         });
       });
-    }
   } catch {}
 });
 
@@ -169,8 +166,52 @@ app.post("/api/toggle-thing", (req, res) => {
       where: { id: req.body.id },
     })
     .then((value) => {
-      console.log(value);
-      res.json(value);
+      if (value.buying_list.user.token !== req.body.token) {
+        res.json({ error: "auth error" });
+        return;
+      }
+      db.thing.findByPk(req.body.id).then((thing) => {
+        thing.check = !thing.check;
+        thing.save();
+        res.json({ success: true });
+      });
+    });
+});
+
+app.post("/api/delete-thing", (req, res) => {
+  db.thing
+    .findOne({
+      include: [{ model: db.buying_list, include: ["user"] }],
+      where: { id: req.body.id },
+    })
+    .then((value) => {
+      if (value.buying_list.user.token !== req.body.token) {
+        res.json({ error: "auth error" });
+        return;
+      }
+      db.thing.findByPk(req.body.id).then((thing) => {
+        thing.destroy();
+        res.json({ success: true });
+      });
+    });
+});
+
+app.post("/api/update-list", (req, res) => {
+  db.buying_list
+    .findOne({
+      include: [{ model: ["user"] }],
+      where: { id: req.body.id },
+    })
+    .then((value) => {
+      if (value.user.token !== req.body.token) {
+        res.json({ error: "auth error" });
+        return;
+      }
+      db.buying_list
+        .update(req.body.updateInfo, { where: { id: req.body.id } })
+        .then((value) => {
+          res.json({ success: true });
+        });
     });
 });
 
