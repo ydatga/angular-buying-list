@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  APP_NAME: 'angular_buying_list',
+  production: false,
 };
