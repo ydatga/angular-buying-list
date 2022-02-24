@@ -1,1 +1,20 @@
-<p>{{ list_id }}</p>
+<h1>{{ list.name }}</h1>
+
+<p>{{ list.place }}</p>
+<p>{{ list.deadline }}</p>
+
+<div class="items">
+  <div class="item" *ngFor="let item of list.items">
+    <input type="checkbox" [value]="item.check" (click)="toggle(item.id)" />
+    {{ item.name }},{{ item.price }},{{ item.count }}
+  </div>
+</div>
+
+<form>
+  <label name="itemName">名前</label
+  ><input type="text" name="id" [(ngModel)]="itemName" /> <label>金額</label
+  ><input type="number" name="itemPrice" [(ngModel)]="itemPrice" />
+  <label>数量</label
+  ><input type="number" name="itemNum" [(ngModel)]="itemNum" />
+  <button (click)="addItem()">追加</button>
+</form>

@@ -4,14 +4,8 @@ import {} from '@angular/material';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ModalCreateBuyingListComponent } from 'src/app/modal-create-buying-list/modal-create-buying-list.component';
 import { Router } from '@angular/router';
-import { ApiService } from 'src/app/service/api.service';
+import { ApiService, BuyingList } from 'src/app/service/api.service';
 
-type BuyingList = {
-  id: number;
-  name: string;
-  place: string;
-  deadline: string;
-};
 @Component({
   selector: 'app-main-page',
   templateUrl: './main-page.component.html',

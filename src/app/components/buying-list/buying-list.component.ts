@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { switchMap } from 'rxjs';
-import { ApiService } from 'src/app/service/api.service';
+import { ApiService, BuyingList } from 'src/app/service/api.service';
 import { StoreService } from 'src/app/store.service';
 
 @Component({
@@ -17,8 +17,11 @@ export class BuyingListComponent implements OnInit {
     public store: StoreService
   ) {}
 
-  list!: any;
+  list!: BuyingList;
   list_id!: number;
+  itemName: string = '';
+  itemPrice: number = 0;
+  itemNum: number = 0;
 
   async ngOnInit() {
     let id: string | null;
@@ -29,11 +32,46 @@ export class BuyingListComponent implements OnInit {
       }
       this.list_id = parseInt(id!);
     });
+    this.loadList();
+  }
+
+  async loadList() {
     (
       await this.api.getList(this.list_id, {
         user_id: this.store.user.id!,
         token: this.store.user.token!,
       })
-    ).subscribe((value) => console.log(value));
+    ).subscribe((value) => {
+      this.list = value.value;
+      console.log(this.list);
+    });
+  }
+
+  async addItem() {
+    (
+      await this.api.createThing({
+        create_info: {
+          list_id: this.list_id,
+          name: this.itemName,
+          price: this.itemPrice,
+          count: this.itemNum,
+        },
+        authInfo: {
+          user_id: this.store.user.id!,
+          token: this.store.user.token!,
+        },
+      })
+    ).subscribe((value) => {
+      console.log(value);
+    });
+    this.loadList();
+  }
+
+  async toggle(id: number) {
+    (await this.api.toggle({ id, token: this.store.user.token! })).subscribe(
+      (value) => {
+        console.log(value);
+      }
+    );
   }
 }

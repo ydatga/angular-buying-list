@@ -6,6 +6,7 @@ const port = process.env.PORT || 8080;
 const token = require("./token");
 
 const db = require("../models/index");
+const thing = require("../models/thing");
 
 app.use(express.json());
 // Gzip
@@ -90,6 +91,10 @@ app.post("/api/create-list", async (req, res) => {
     res.json({ error: "auth error" });
     return;
   }
+  if (req.body.createinfo.user_id !== req.body.authInfo.user_id) {
+    res.json({ error: "auth error" });
+    return;
+  }
   db.buying_list
     .create({
       ...req.body.createinfo,
@@ -124,17 +129,49 @@ app.post("/api/get-buying-list/:id", async (req, res) => {
     return;
   }
   db.buying_list.findByPk(req.params.id).then((value) => {
+    if (value.user_id !== req.body.authInfo.user_id) {
+      res.json({ error: "auth error" });
+      return;
+    }
     if (value === null) {
       res.json({ success: false });
     } else {
-      response = { ...response, value };
       db.thing.findAll({ where: { list_id: value.id } }).then((items) => {
-        response.value = { ...response.value, items };
+        response.value = { ...value.dataValues, items };
         res.json(response);
       });
     }
   });
   return;
+});
+
+app.post("/api/create-thing", async (req, res) => {
+  const authSuccess = await auth(req.body.authInfo);
+  if (!authSuccess) {
+    res.json({ error: "auth error" });
+    return;
+  }
+  db.buying_list.findByPk(req.body.create_info.list_id).then((list) => {
+    if (list.user_id !== req.body.authInfo.user_id) {
+      res.json({ error: "auth error" });
+      return;
+    }
+  });
+  db.thing.create({ ...req.body.create_info, checked: false }).then((item) => {
+    res.json({ success: true, ...item });
+  });
+});
+
+app.post("/api/toggle-thing", (req, res) => {
+  db.thing
+    .findOne({
+      include: [{ model: db.buying_list, include: ["user"] }],
+      where: { id: req.body.id },
+    })
+    .then((value) => {
+      console.log(value);
+      res.json(value);
+    });
 });
 
 const auth = async ({ user_id, token }) => {

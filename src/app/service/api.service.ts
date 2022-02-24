@@ -9,6 +9,32 @@ type AuthInfo = {
   token: string;
 };
 
+export type BuyingList = {
+  name: string;
+  place: string;
+  deadline: string;
+  finished: boolean;
+  id: number;
+  items: Item[];
+  user_id: number;
+};
+
+export type Item = {
+  id: number;
+  list_id: number;
+  check: boolean;
+  name: string;
+  price: number;
+  count: number;
+};
+
+type CreateListParams = {
+  list_id: number;
+  name: string;
+  price: number;
+  count: number;
+};
+
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
@@ -62,6 +88,13 @@ export class ApiService {
     return this.http.post<any>('api/create-list', req, httpOptions);
   }
 
+  async createThing(req: {
+    create_info: CreateListParams;
+    authInfo: AuthInfo;
+  }) {
+    return this.http.post<any>(`api/create-thing`, req, httpOptions);
+  }
+
   async login(login_id: string, password: string) {
     return this.http.get<any>(`api/login`, { params: { login_id, password } });
   }
@@ -74,6 +107,10 @@ export class ApiService {
         success = value.success;
       });
     return success;
+  }
+
+  async toggle(req: { id: number; token: string }) {
+    return this.http.post('api/toggle-thing', req, httpOptions);
   }
 }
 
