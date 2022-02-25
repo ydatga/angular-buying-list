@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { switchMap } from 'rxjs';
+import { ConfirmFinishModalComponent } from 'src/app/modals/confirm-finish-modal/confirm-finish-modal.component';
 import { ApiService, BuyingList } from 'src/app/service/api.service';
 import { StoreService } from 'src/app/store.service';
 
@@ -14,7 +16,8 @@ export class BuyingListComponent implements OnInit {
     private api: ApiService,
     private route: ActivatedRoute,
     private router: Router,
-    public store: StoreService
+    public store: StoreService,
+    public matdialog: MatDialog
   ) {}
 
   list!: BuyingList;
@@ -22,6 +25,8 @@ export class BuyingListComponent implements OnInit {
   itemName: string = '';
   itemPrice: number = 0;
   itemNum: number = 0;
+  totalPrice: number = 0;
+  checkCnt: number = 0;
 
   async ngOnInit() {
     let id: string | null;
@@ -42,7 +47,17 @@ export class BuyingListComponent implements OnInit {
         token: this.store.user.token!,
       })
     ).subscribe((value) => {
+      this.totalPrice = 0;
+      this.checkCnt = 0;
       this.list = value.value;
+      const item = value.value.items;
+      item.forEach((elem: any) => {
+        this.totalPrice += elem.price;
+        if (elem.check) this.checkCnt++;
+      });
+      if (this.checkCnt === this.list.items.length) {
+        this.showFinish();
+      }
       console.log(this.list);
     });
   }
@@ -84,7 +99,50 @@ export class BuyingListComponent implements OnInit {
     (await this.api.toggle({ id, token: this.store.user.token! })).subscribe(
       (value) => {
         console.log(value);
+        this.loadList();
       }
+    );
+  }
+
+  async onChangeName(e: any) {
+    await (
+      await this.api.updateList({
+        id: this.list_id,
+        token: this.store.user.token!,
+        updateInfo: { name: e.target.value },
+      })
+    ).subscribe((value) => {
+      console.log(value);
+    });
+  }
+  async onChangePlace(e: any) {
+    await (
+      await this.api.updateList({
+        id: this.list_id,
+        token: this.store.user.token!,
+        updateInfo: { place: e.target.value },
+      })
+    ).subscribe((value) => {
+      console.log(value);
+    });
+  }
+  async onChangeDate(e: any) {
+    await (
+      await this.api.updateList({
+        id: this.list_id,
+        token: this.store.user.token!,
+        updateInfo: { deadline: e.target.value },
+      })
+    ).subscribe((value) => {
+      console.log(value);
+    });
+  }
+
+  showFinish() {
+    const dialogConfig = new MatDialogConfig();
+    const dialog = this.matdialog.open(
+      ConfirmFinishModalComponent,
+      dialogConfig
     );
   }
 }

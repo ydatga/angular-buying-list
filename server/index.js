@@ -199,7 +199,7 @@ app.post("/api/delete-thing", (req, res) => {
 app.post("/api/update-list", (req, res) => {
   db.buying_list
     .findOne({
-      include: [{ model: ["user"] }],
+      include: ["user"],
       where: { id: req.body.id },
     })
     .then((value) => {

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HomeComponent } from './home.component';
+import { ConfirmFinishModalComponent } from './confirm-finish-modal.component';
 
-describe('HomeComponent', () => {
-  let component: HomeComponent;
-  let fixture: ComponentFixture<HomeComponent>;
+describe('ConfirmFinishModalComponent', () => {
+  let component: ConfirmFinishModalComponent;
+  let fixture: ComponentFixture<ConfirmFinishModalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ HomeComponent ]
+      declarations: [ ConfirmFinishModalComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HomeComponent);
+    fixture = TestBed.createComponent(ConfirmFinishModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

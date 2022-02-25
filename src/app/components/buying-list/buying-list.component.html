@@ -1,7 +1,11 @@
-<input type="text" [value]="list.name" />
+<input type="text" [value]="list.name" (change)="onChangeName($event)" />
 
-<input type="text" [value]="list.place" />
-<input type="date" [value]="list.deadline.substr(0, 10)" />
+<input type="text" [value]="list.place" (change)="onChangePlace($event)" />
+<input
+  type="date"
+  [value]="list.deadline.substr(0, 10)"
+  (change)="onChangeDate($event)"
+/>
 
 <div class="items">
   <div class="item" *ngFor="let item of list.items">
@@ -19,3 +23,8 @@
   ><input type="number" name="itemNum" [(ngModel)]="itemNum" />
   <button (click)="addItem()">追加</button>
 </form>
+
+<div>
+  <span>予算合計：{{ totalPrice }}</span>
+  <span>進捗:{{ checkCnt }}/{{ list.items.length }}</span>
+</div>
