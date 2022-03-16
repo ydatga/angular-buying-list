@@ -215,6 +215,24 @@ app.post("/api/update-list", (req, res) => {
     });
 });
 
+app.post("/api/delete-list", (req, res) => {
+  db.buying_list
+    .findOne({
+      include: ["user"],
+      where: { id: req.body.id },
+    })
+    .then((value) => {
+      if (value.user.token !== req.body.token) {
+        res.json({ error: "auth error" });
+        return;
+      }
+      db.buying_list.findByPk(req.body.id).then((list) => {
+        list.destroy();
+        res.json({ success: true });
+      });
+    });
+});
+
 const auth = async ({ user_id, token }) => {
   let flag = true;
   await db.user.findOne({ where: { id: user_id, token } }).then((user) => {

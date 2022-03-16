@@ -22,6 +22,10 @@ export class MainPageComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
+    this.refresh();
+  }
+
+  async refresh() {
     if (!this.user.name) {
       this.router.navigateByUrl('/');
     } else {
@@ -45,5 +49,15 @@ export class MainPageComponent implements OnInit {
     this.router.navigateByUrl(`/buying-list/${id}`);
   }
 
-  onClickDelete(id: number) {}
+  async delete(id: number) {
+    return (
+      await this.api.deleteList({ id, token: this.store.user.token! })
+    ).pipe((x) => x);
+  }
+
+  async onClickDelete(id: number) {
+    (await this.delete(id)).subscribe((value) => {
+      this.refresh();
+    });
+  }
 }

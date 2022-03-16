@@ -117,6 +117,10 @@ export class ApiService {
     return this.http.post('api/delete-thing', req, httpOptions);
   }
 
+  async deleteList(req: { id: number; token: string }) {
+    return this.http.post('api/delete-list', req, httpOptions);
+  }
+
   async updateList(req: {
     id: number;
     token: string;
