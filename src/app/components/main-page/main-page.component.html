@@ -1,4 +1,24 @@
 <p>ようこそ{{ user?.name }}</p>
+<div class="d-flex">
+  <input type="text" />
+  <button>検索</button>
+  <input
+    id="name"
+    type="radio"
+    value="name"
+    name="search"
+    [(ngModel)]="search"
+    (change)="onChangeSearch($event)"
+  /><label for="name">名前で検索</label>
+  <input
+    id="place"
+    type="radio"
+    value="place"
+    name="search"
+    [(ngModel)]="search"
+    (change)="onChangeSearch($event)"
+  /><label for="place">場所で検索</label>
+</div>
 <table *ngIf="buying_list.length > 0">
   <tr>
     <th>名前</th>

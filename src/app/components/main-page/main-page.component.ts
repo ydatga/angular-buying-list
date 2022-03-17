@@ -14,6 +14,7 @@ import { ApiService, BuyingList } from 'src/app/service/api.service';
 export class MainPageComponent implements OnInit {
   user = this.store.user;
   buying_list: BuyingList[] = [];
+  search: String = 'name';
   constructor(
     private store: StoreService,
     public matdialog: MatDialog,
@@ -23,6 +24,10 @@ export class MainPageComponent implements OnInit {
 
   async ngOnInit() {
     this.refresh();
+  }
+
+  onChangeSearch(e: any) {
+    console.log(e.target.value);
   }
 
   async refresh() {
