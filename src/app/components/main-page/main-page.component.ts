@@ -15,6 +15,7 @@ export class MainPageComponent implements OnInit {
   user = this.store.user;
   buying_list: BuyingList[] = [];
   search: String = 'name';
+  keyword: String = '';
   constructor(
     private store: StoreService,
     public matdialog: MatDialog,
@@ -28,6 +29,7 @@ export class MainPageComponent implements OnInit {
 
   onChangeSearch(e: any) {
     console.log(e.target.value);
+    this.search = e.target.value;
   }
 
   async refresh() {
@@ -35,7 +37,12 @@ export class MainPageComponent implements OnInit {
       this.router.navigateByUrl('/');
     } else {
       (
-        await this.api.getLists(this.store.user.id!, this.store.user.token!)
+        await this.api.getLists(
+          this.store.user.id!,
+          this.store.user.token!,
+          this.search,
+          this.keyword
+        )
       ).subscribe((value: any) => {
         this.buying_list = value.map((list: BuyingList) => list);
       });
@@ -64,5 +71,9 @@ export class MainPageComponent implements OnInit {
     (await this.delete(id)).subscribe((value) => {
       this.refresh();
     });
+  }
+
+  async onClickSearch() {
+    this.refresh();
   }
 }

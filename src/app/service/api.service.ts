@@ -56,10 +56,15 @@ export class ApiService {
     return this.http.post<any>('api/createUser', req, httpOptions);
   }
 
-  async getLists(user_id: number, token: string) {
+  async getLists(
+    user_id: number,
+    token: String,
+    search?: String,
+    keyword?: String
+  ) {
     return this.http.post<any>(
       `api/get-buying-lists/${user_id}`,
-      { token },
+      { token, search, keyword },
       httpOptions
     );
   }

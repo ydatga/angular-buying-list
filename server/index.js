@@ -4,6 +4,7 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 8080;
 const token = require("./token");
+const { Op } = require("sequelize");
 
 const db = require("../models/index");
 const thing = require("../models/thing");
@@ -107,9 +108,18 @@ app.post("/api/get-buying-lists/:user_id", async (req, res) => {
     user_id: req.params.user_id,
     token: req.body.token,
   });
+  const param = { user_id: req.params.user_id };
+  if (req.body.search === "name") {
+    param.name = { [Op.like]: `%${req.body.keyword}%` };
+  }
+  if (req.body.search === "place") {
+    param.place = { [Op.like]: `%${req.body.keyword}%` };
+  }
   if (authSuccess) {
     db.buying_list
-      .findAll({ where: { user_id: req.params.user_id } })
+      .findAll({
+        where: param,
+      })
       .then((lists) => {
         res.json(lists);
       });

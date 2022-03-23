@@ -55,7 +55,10 @@ export class BuyingListComponent implements OnInit {
         this.totalPrice += elem.price;
         if (elem.check) this.checkCnt++;
       });
-      if (this.checkCnt === this.list.items.length) {
+      if (
+        this.checkCnt === this.list.items.length &&
+        this.list.items.length > 0
+      ) {
         this.showFinish();
       }
       console.log(this.list);
